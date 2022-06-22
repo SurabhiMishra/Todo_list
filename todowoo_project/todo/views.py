@@ -1,5 +1,5 @@
 from django.db import IntegrityError
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect, get_object_or_404
 from django.contrib.auth.forms import UserCreationForm,AuthenticationForm
 from django.contrib.auth.models import User
 from django.db import IntegrityError
@@ -55,6 +55,11 @@ def logoutuser(request):
 def currenttodo(request):
     todos = todo.objects.filter(user=request.user)
     return render(request, 'todo/currenttodos.html',{'todos':todos})
+
+def viewtodo(request,todo_pk):
+    todox = get_object_or_404(todo,pk=todo_pk)
+    form = todoform(instance=todox)
+    return render(request, 'todo/viewtodo.html',{'todo':todox,'form':form})
 
 
 def createtodo(request):
